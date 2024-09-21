@@ -1,8 +1,6 @@
 import { readFile } from 'fs/promises';
 import { checkFolderExistance, authorize } from '../drive.js';
 import { toCMD } from '../another.js';
-import * as path from 'path';
-import { fileURLToPath } from 'url';
 
 class Init {
   static async drive(req, res, next, _return = true) {
