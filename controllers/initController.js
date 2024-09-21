@@ -18,12 +18,13 @@ class Init {
     }
 
     try {
-      const __filename = fileURLToPath(import.meta.url);
-      const __dirname = path.dirname(__filename);
-
-      const data = await readFile('./googleDrive_structure.json', 'utf8');
-
-      parsedData = await JSON.parse(data);
+      parsedData = {
+          gallery: {
+              math: 1,
+              icon: 1
+          },
+          files: 1
+      }
 
       result = {}
 
