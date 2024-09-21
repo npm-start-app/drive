@@ -21,7 +21,7 @@ class Init {
       const __filename = fileURLToPath(import.meta.url);
       const __dirname = path.dirname(__filename);
 
-      const data = await readFile(path.join(__dirname, '/googleDrive_structure.json'), 'utf8');
+      const data = await readFile('./googleDrive_structure.json', 'utf8');
 
       parsedData = await JSON.parse(data);
 
