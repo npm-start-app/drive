@@ -1,0 +1,6 @@
+{
+    "profilePrefix": "#profile#",
+    "userPrefix": "#user#",
+    "tokenPrefix": "#token#",
+    "sysPrefix": "#sys#"
+}

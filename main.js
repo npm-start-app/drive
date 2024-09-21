@@ -1,31 +1,18 @@
-const express = require('express');
-const fileUpload = require('express-fileupload')
-const cors = require('cors')
+import express, { json } from 'express';
+import fileUpload from 'express-fileupload';
+import cors from 'cors';
+
+import mainRouter from './routers/index.js';
 
 const app = express();
 const port = 1111;
 
-app.use(fileUpload({}))
-app.use(express.json())
 app.use(cors())
+app.use(json())
+app.use(fileUpload({}))
 
-app.get('/', (req, res) => {
-    // authorize().then(listFiles).catch(console.error);
-
-    res.send(true);
-});
-
-app.post('/createFile', (req, res) => {
-    const { token } = req.body
-    const { file } = req.files
-
-    // authorize().then((authClient) => createFile(authClient, file['data'])).catch(console.error);
-
-    // console.log(file)
-
-    return res.json(true)
-})
+app.use('/', mainRouter)
 
 app.listen(port, () => {
-    console.log(`Сервер запущено на порті ${port}`);
+    console.log(`Server was started on ${port}`);
 });
