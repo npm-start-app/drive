@@ -1,6 +1,8 @@
 import { readFile } from 'fs/promises';
 import { checkFolderExistance, authorize } from '../drive.js';
 import { toCMD } from '../another.js';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 class Init {
   static async drive(req, res, next, _return = true) {
@@ -16,7 +18,10 @@ class Init {
     }
 
     try {
-      const data = await readFile('./googleDrive_structure.json', 'utf8');
+      const __filename = fileURLToPath(import.meta.url);
+      const __dirname = dirname(__filename);
+
+      const data = await readFile(__dirname + '/../googleDrive_structure.json', 'utf8');
 
       parsedData = await JSON.parse(data);
 
