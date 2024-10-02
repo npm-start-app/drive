@@ -139,13 +139,14 @@ class DriveController {
             })
         }
 
-        const result = await getFile(driveAuth, req.query.fileId)
+        const result = await getFile(driveAuth, req.query.fileId, res)
 
-        return res.json({
-            status: true,
-            result: 'File successfully was sent',
-            files: [result]
-        })
+        if (!result) {
+            return res.status(500).json({
+                status: false,
+                result: 'Server error'
+            })
+        }
     }
 
     static async getFolderFiles(req, res) {
