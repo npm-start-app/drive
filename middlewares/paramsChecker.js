@@ -7,7 +7,8 @@ class ParamsChecker {
         'png': [],
         'cfb': ['doc'],
         'docx': [],
-        'pdf': []
+        'pdf': [],
+        'exe': []
     }
 
     static async checkExistance(req, res, next, conf) {
