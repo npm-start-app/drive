@@ -190,18 +190,21 @@ async function countFilesInFolder(authClient, FolderId) {
     }
 }
 
-async function getFile(authClient, fileId) {
+async function getFile(authClient, fileId, res) {
     try {
         const drive = google.drive({ version: 'v3', auth: authClient })
 
-        const name = await drive.files.get({ fileId, fields: 'name' });
+        const name = await drive.files.get({ fileId, fields: 'name, mimeType' });
 
-        const buffer = await drive.files.get({ fileId, alt: 'media' }, { responseType: 'arraybuffer' });
+        const buffer = await drive.files.get({ fileId, alt: 'media' }, { responseType: 'stream' });
 
-        return {
-            name: name.data.name,
-            buffer: Buffer.from(buffer.data)
-        }
+        res.set({
+            'Content-Type': name.data.mimeType,
+            'Content-Disposition': `attachment; filename="${name.data.name}"`,
+            'Access-Control-Expose-Headers': 'Content-Disposition, Content-Type'
+        });
+
+        buffer.data.pipe(res)
     } catch (error) {
         console.log(error)
 
