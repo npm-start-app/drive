@@ -205,6 +205,8 @@ async function getFile(authClient, fileId, res) {
         });
 
         buffer.data.pipe(res)
+
+        return true
     } catch (error) {
         console.log(error)
 
