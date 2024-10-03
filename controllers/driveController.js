@@ -165,6 +165,68 @@ class DriveController {
             result: result
         })
     }
+
+    static async createFileChunk(req, res) {
+        const { chunkIndex } = req.body
+        const { fileChunk } = req.files
+        const name = 'chunk_' + chunkIndex
+        const mimetype = fileChunk.mimetype
+
+        if (!(name && mimetype && fileChunk)) {
+            return res.status(500).json({
+                status: false,
+                result: 'Server error 1'
+            })
+        }
+
+        const driveAuth = await authorize()
+        if (!driveAuth) {
+            return res.status(500).json({
+                status: false,
+                result: 'Server error 2'
+            })
+        }
+
+        const result = await createFile(driveAuth, name, mimetype, fileChunk.data, (req.body.folderId === undefined) ? 'root' : req.body.folderId)
+        if (!result) {
+            return res.status(500).json({
+                status: false,
+                result: 'Server error 3'
+            })
+        }
+
+        return res.json({
+            status: true,
+            result: result
+        })
+    }
+
+    static async createMainChunk(req, res) {
+        const { chunkFile } = req.body
+
+        const driveAuth = await authorize()
+        if (!driveAuth) {
+            return res.status(500).json({
+                status: false,
+                result: 'Server error 2'
+            })
+        }
+
+        // console.log(chunkFile)
+
+        const result = await createFile(driveAuth, '#chunk#.json', 'application/json', chunkFile, (req.body.folderId === undefined) ? 'root' : req.body.folderId, true)
+        if (!result) {
+            return res.status(500).json({
+                status: false,
+                result: 'Server error 3'
+            })
+        }
+
+        return res.json({
+            status: true,
+            result: result
+        })
+    }
 }
 
 export default DriveController
