@@ -13,6 +13,9 @@ const getFileCONF = { headers: ['drivetoken', 'profileid'], query: ['fileId'] }
 const pingCONF = { headers: ['drivetoken', 'profileid'] }
 const getFolderFilesCONF = { headers: ['drivetoken', 'profileid'], query: ['folderId'] }
 
+const createFileChunkCONF = { headers: ['drivetoken', 'profileid']}
+const createMainChunkCONF = { headers: ['drivetoken', 'profileid']}
+
 router.get('/getFileList', async (req, res, next) => await ParamsChecker.checkExistance(req, res, next, getFileListCONF),
     async (req, res, next) => await AuthChecker.checkAuth(req, res, next, 'Admin'),
     DriveController.getFileList)
@@ -36,5 +39,13 @@ router.get('/checkStructure', async (req, res, next) => await ParamsChecker.chec
 router.post('/createFile', async (req, res, next) => await ParamsChecker.checkExistance(req, res, next, createFileCONF),
     async (req, res, next) => await AuthChecker.checkAuth(req, res, next, 'Admin'),
     DriveController.createFile)
+
+router.post('/createFileChunk', async (req, res, next) => await ParamsChecker.checkExistance(req, res, next, createFileChunkCONF),
+    async (req, res, next) => await AuthChecker.checkAuth(req, res, next, 'Admin'),
+    DriveController.createFileChunk)
+
+router.post('/createMainChunk', async (req, res, next) => await ParamsChecker.checkExistance(req, res, next, createMainChunkCONF),
+    async (req, res, next) => await AuthChecker.checkAuth(req, res, next, 'Admin'),
+    DriveController.createMainChunk)
 
 export default router
